@@ -3,27 +3,27 @@ A Django Middleware to protect all URLs behind a login
 
 ### Installation
 1. Install using pip:
-
-    pip install django-login-required
-
+```
+pip install django-login-required
+```
 1. Include the middleware in your settings.py after the AuthenticationMiddleware:
-
+```
     MIDDLEWARE = [
         ...
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'login_required.middleware.LoginRequiredMiddleware',
         ...
     ]
-
+```
 1. Specify the settings for LOGIN_URL and (optionally) LOGIN_EXEMPT_URLS:
-
+```
     LOGIN_URL = "/login/"
     LOGIN_EXEMPT_URLS = [
         # LOGIN_URL is always exempt, no need to repeat it here
         "/password_reset/",
         "/password_reset/done/"
     ]
-
+```
 And you should be good to go!
 
 ### Credits    
