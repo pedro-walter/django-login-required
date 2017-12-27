@@ -1,3 +1,4 @@
+import django
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 
@@ -17,8 +18,15 @@ class LoginRequiredMiddleware(object):
             login_exempt_urls = settings.LOGIN_EXEMPT_URLS
         login_exempt_urls.append(login_url)
 
+        # Django v2 now has request.user.is_authenticated as a boolean instead
+        #       of a function that returns a boolean
+        if django.VERSION[0] == 2:
+            is_authenticated = request.user.is_authenticated
+        else:
+            is_authenticated = request.user.is_authenticated()
+
         # No need to process URLs if user already logged in
-        if request.user.is_authenticated():
+        if is_authenticated:
             return self.get_response(request)
         # Let user go through exempt urls
         elif request.path in login_exempt_urls:
