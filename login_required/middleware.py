@@ -25,8 +25,12 @@ class LoginRequiredMiddleware(object):
         else:
             is_authenticated = request.user.is_authenticated()
 
+
         # No need to process URLs if user already logged in
         if is_authenticated:
+            return self.get_response(request)
+        # Static files should always be served
+        if 'STATIC_URL' in available_settings and request.path.startswith(settings.STATIC_URL):
             return self.get_response(request)
         # Let user go through exempt urls
         elif request.path in login_exempt_urls:
